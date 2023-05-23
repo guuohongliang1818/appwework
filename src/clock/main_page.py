@@ -1,21 +1,30 @@
 # 姓名：郭宏亮
 # 时间：2023/5/22 21:18
-class MainPage:
+from src.clock.alarm_page import AlarmPage
+from src.clock.base_page import BasePage
+from src.clock.clock_page import ClockPage
+from src.clock.stopwatch_page import StopwatchPage
+from src.clock.timer_page import TimerPage
 
-    def setup_class(self):
-        pass
 
-    def __init__(self):
-        pass
+class MainPage(BasePage):
+
+    def __init__(self, driver=None):
+        # 在初始化main_page的时候，已经将driver初始化完毕
+        caps = {}
+        # 桌面点击clock按钮，进入了alarm，timer，clock，stopwatch主页，由如下四个跳转功能
+        caps["appPackage"] = "com.android.deskclock"
+        caps["appActivity"] = "com.android.deskclock.DeskClock"
+        super().__init__(driver, caps)
 
     def to_alarm_page(self):
-        pass
+        return AlarmPage(self.driver)
 
     def to_clock_page(self):
-        pass
+        return ClockPage(self.driver)
 
     def to_timer_page(self):
-        pass
+        return TimerPage(self.driver)
 
     def to_stopwatch_page(self):
-        pass
+        return StopwatchPage(self.driver)
