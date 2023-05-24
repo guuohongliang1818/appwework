@@ -1,5 +1,7 @@
 # 姓名：郭宏亮
 # 时间：2023/5/22 21:18
+from appium.webdriver.common.appiumby import AppiumBy
+
 from src.clock.alarm_page import AlarmPage
 from src.clock.base_page import BasePage
 from src.clock.clock_page import ClockPage
@@ -18,13 +20,21 @@ class MainPage(BasePage):
         super().__init__(driver, caps)
 
     def to_alarm_page(self):
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Alarm']/android.widget.TextView").click()
         return AlarmPage(self.driver)
 
     def to_clock_page(self):
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Clock']/android.widget.TextView").click()
         return ClockPage(self.driver)
 
     def to_timer_page(self):
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Timer']/android.widget.TextView").click()
         return TimerPage(self.driver)
 
     def to_stopwatch_page(self):
+        self.driver.find_element(by=AppiumBy.XPATH,
+                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Stopwatch']/android.widget.TextView").click()
         return StopwatchPage(self.driver)

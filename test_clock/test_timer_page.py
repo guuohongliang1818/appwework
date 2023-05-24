@@ -3,13 +3,13 @@
 from src.clock.main_page import MainPage
 
 
-class TestAlarmPage:
+class TestTimerPage:
 
     def setup_class(self):
         self.main_page = MainPage()
 
-    def test_to_alarm_page(self):
-        self.main_page.to_alarm_page()
+    def test_to_timer_page(self):
+        self.main_page.to_timer_page()
 
     def teardown_class(self):
         self.main_page.close()

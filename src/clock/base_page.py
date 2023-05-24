@@ -1,6 +1,7 @@
 # 姓名：郭宏亮
 # 时间：2023/5/22 22:14
 from appium import webdriver
+from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.remote.webdriver import WebDriver
 
 

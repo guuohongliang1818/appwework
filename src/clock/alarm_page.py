@@ -8,4 +8,4 @@ class AlarmPage(BasePage):
         super().__init__(driver)
 
     def say(self):
-        print("=======")
+        pass
