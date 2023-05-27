@@ -2,20 +2,22 @@
 # 时间：2023/5/26 22:39
 from src.wework.contact.search_page import SearchPage
 
+from src.wework.contact.contact_page import ContactPage
+
 
 class HomePage:
 
-    def 消息(self):
+    def to_message(self):
         pass
 
-    def 邮件(self):
+    def to_email(self):
         pass
 
-    def 文档(self):
+    def to_document(self):
         pass
 
-    def 工作台(self):
+    def to_workbench(self):
         pass
 
-    def 通讯录(self):
-        return SearchPage()
+    def to_contact(self):
+        return ContactPage()
