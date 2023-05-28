@@ -7,3 +7,10 @@ appium
 注意问题：
 1，注意时间的问题处理
 2.base_page 封装 1:00左右
+
+
+查看启动企业微信的
+adb logcat -s ActivityManager
+
+企业微信完成：
+1.添加成员和搜索功能
