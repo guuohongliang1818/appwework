@@ -20,13 +20,8 @@ class BasePage:
             caps["appium:nativeWebScreenshot"] = True
             caps["appium:newCommandTimeout"] = 3600
             caps["appium:connectHardwareKeyboard"] = True
-            caps["automationName"] = "UiAutomator2"
-            # caps["ServerInstallTimeout"] = 6000
-            # caps["skipServerInstallation"] = False
-            # caps["skipDeviceInitialization"] = False
-            caps["appWaitForLaunch"] = False
             self.driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", caps)
-            self.driver.implicitly_wait(40)
+            # self.driver.implicitly_wait(40)
 
     def close(self):
         self.driver.quit()

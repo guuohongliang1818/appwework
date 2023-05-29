@@ -15,6 +15,7 @@ class HomePage(BasePage):
         caps["appPackage"] = "com.tencent.wework"
         caps["appActivity"] = ".launch.LaunchSplashActivity"
         super().__init__(driver, caps)
+        self.driver.implicitly_wait(3)
 
     def to_message(self):
         pass
@@ -30,4 +31,4 @@ class HomePage(BasePage):
 
     def to_contact(self):
         self.click(by=AppiumBy.XPATH, value="//*[@text='通讯录']")
-        return ContactPage()
+        return ContactPage(self.driver)

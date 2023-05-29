@@ -10,9 +10,15 @@ from src.wework_app.util_page.base_page import BasePage
 class ManagePage(BasePage):
     _cancel = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf0")
 
+    def __init__(self, driver=None):
+        super().__init__(driver=driver)
+        lst = self.driver.find_elements(by=AppiumBy.XPATH, value="//android.view.ViewGroup")
+        for item in lst:
+            print("-----------")
+
     def to_add_person_page(self):
         self.click(by=AppiumBy.XPATH, value="//*[@text='添加成员']")
-        return AddPersonPage()
+        return AddPersonPage(self.driver)
 
     def to_add_sub_department(self):
         return
@@ -21,7 +27,5 @@ class ManagePage(BasePage):
         return
 
     def cancel_manage(self):
-        print("取消管理界面111")
         self.click(**self._cancel)
-        print("取消管理界面222")
-        return ContactPage()
+        return ContactPage(self.driver)
