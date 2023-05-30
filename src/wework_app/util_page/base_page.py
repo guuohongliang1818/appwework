@@ -30,9 +30,24 @@ class BasePage:
         self.driver.back()
 
     def click(self, by, value):
-        self.driver.find_element(by, value).click()
-        allure.attach(body=self.driver.get_screenshot_as_png(), attachment_type=allure.attachment_type.PNG)
+        try:
+            self.driver.find_element(by, value).click()
+            allure.attach(body=self.driver.get_screenshot_as_png(), attachment_type=allure.attachment_type.PNG)
+        except:
+            allure.attach(body=self.driver.get_screenshot_as_png(), attachment_type=allure.attachment_type.PNG)
+            self.exception_handle()
+            self.click(by, value)
+
+    # 异常处理
 
     def send_keys(self, by, value, text):
         self.driver.find_element(by, value).send_keys(text)
         allure.attach(body=self.driver.get_screenshot_as_png(), attachment_type=allure.attachment_type.PNG)
+
+    def exception_handle(self):
+        # 判断是否有电话打进来
+        if "package='com.android.systemui' class='android.widget.Button'" in self.driver.page_source:
+            # 拒绝电话
+            self.click(by=AppiumBy.ACCESSIBILITY_ID, value="Decline")
+        if "" in self.driver.page_source:
+            pass
