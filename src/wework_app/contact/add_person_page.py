@@ -2,7 +2,6 @@
 # 时间：2023/5/27 21:04
 from appium.webdriver.common.appiumby import AppiumBy
 
-
 from src.wework_app.util_page.base_page import BasePage
 
 
@@ -39,15 +38,17 @@ class AddPersonPage(BasePage):
     def to_upload_sheet(self):
         return self
 
+    # 退回到管理页面
     def back_manage_page(self):
-        # 必须找到“手动输入添加”添加这个按钮，才能返回，否则不报错，也不会有返回
+        # 必须找到“手动输入添加”添加这个按钮，才能返回，否则报错，也不会有返回
         self.driver.find_element(**self._to_write)
         self.back()
         from src.wework_app.contact.manage_page import ManagePage
         return ManagePage(self.driver)
 
+    # 退回到通讯录页面
     def back_contact_page(self):
-        # 必须找到“手动输入添加”添加这个按钮，才能返回，否则不报错，也不会有返回
+        # 必须找到“手动输入添加”添加这个按钮，才能返回，否则报错，也不会有返回
         self.driver.find_element(**self._to_write)
         self.back()
         from src.wework_app.contact.contact_page import ContactPage

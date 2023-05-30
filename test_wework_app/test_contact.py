@@ -33,4 +33,5 @@ class TestContact:
             .cancel_manage()
 
     def test_delete_person(self):
-        self.contact_page.to_manage_page()
+        # 进入管理页面，删除员工信息，最后取消管理页面，进入通讯录页面
+        self.contact_page.to_manage_page().delete_person()

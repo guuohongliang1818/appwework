@@ -24,16 +24,22 @@ class ContactPage(BasePage):
         return ManagePage(self.driver)
 
     def to_add_person_page(self):
+        # 获取移动设备的长度和宽度
         size = self.driver.get_window_size()
         width = size["width"]
         height = size["height"]
 
         def to_swipe(driver):
-            self.driver.swipe(width * 0.5, height * 0.8, width * 0.5, height * 0.2, 100)
-            return self.driver.find_element(by=AppiumBy.XPATH, value="//*[@text='添加成员']")
+            driver.swipe(width * 0.5, height * 0.8, width * 0.5, height * 0.2)
+            return driver.find_element(by=AppiumBy.XPATH, value="//*[@text='添加成员']")
 
         WebDriverWait(self.driver, 10).until(to_swipe).click()
         return AddPersonPage(self.driver)
 
     def to_show_person_detail(self):
-        return ShowPersonDetailPage()
+        return ShowPersonDetailPage(self.driver)
+
+
+if __name__ == '__main__':
+    lst = [1, 2, 3, 4, 5]
+    print(len())
