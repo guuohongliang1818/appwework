@@ -45,10 +45,11 @@ class ManagePage(BasePage):
 
             # 找到删除成员的按钮
             def to_swipe(driver):
-                driver.swipe(width * 0.5, height * 0.8, width * 0.5, height * 0.2, 2000)
-                return driver.find_element(by=AppiumBy.XPATH, value="//*[@text='删除成员']")
+                driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1)
+                return driver.find_element(**self._delete_person)
 
             delete_button = WebDriverWait(self.driver, 10).until(to_swipe)
+            print("delete_button：", delete_button)
             delete_button.click()
             WebDriverWait(self.driver, 10).until(
                 expected_conditions.element_to_be_clickable((AppiumBy.XPATH, "//*[@text='删除']"))).click()
