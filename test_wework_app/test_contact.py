@@ -32,6 +32,7 @@ class TestContact:
             .back_manage_page() \
             .cancel_manage()
 
+    # @pytest.mark.parametrize("count", range(1, 11))
     def test_delete_person(self):
         # 进入管理页面，删除员工信息，最后取消管理页面，进入通讯录页面
         self.contact_page.to_manage_page().delete_person()

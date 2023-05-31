@@ -33,6 +33,7 @@ class BasePage:
         try:
             self.driver.find_element(by, value).click()
             allure.attach(body=self.driver.get_screenshot_as_png(), attachment_type=allure.attachment_type.PNG)
+            return
         except:
             allure.attach(body=self.driver.get_screenshot_as_png(), attachment_type=allure.attachment_type.PNG)
             self.exception_handle()
@@ -46,8 +47,12 @@ class BasePage:
 
     def exception_handle(self):
         # 判断是否有电话打进来
-        if "package='com.android.systemui' class='android.widget.Button'" in self.driver.page_source:
+        page = self.driver.page_source
+        if 'package="com.android.systemui" class="android.widget.Button"' in self.driver.page_source:
             # 拒绝电话
             self.click(by=AppiumBy.ACCESSIBILITY_ID, value="Decline")
-        if "" in self.driver.page_source:
-            pass
+        elif 'package="com.tencent.wework" class="android.widget.TextView" text="编辑成员"' in self.driver.page_source:
+            size = self.driver.get_window_size()
+            width = size["width"]
+            height = size["height"]
+            self.driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1, 10)

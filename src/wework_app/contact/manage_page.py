@@ -12,7 +12,7 @@ from src.wework_app.util_page.base_page import BasePage
 class ManagePage(BasePage):
     _cancel = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf0")
     _edit = dict(by=AppiumBy.ID, value="com.tencent.wework:id/jeo")
-    _delete_person = dict(by=AppiumBy.ID, value="com.tencent.wework:id/gvm")
+    _delete_person = dict(by=AppiumBy.XPATH, value="//*[@text='删除成员']")
     _delete = dict(by=AppiumBy.ID, value="com.tencent.wework:id/cw1")
 
     def __init__(self, driver=None):
@@ -39,19 +39,11 @@ class ManagePage(BasePage):
             # 进入编辑详情页面
             lst[1].click()
             # 在编辑的详情页面获取移动设备的长度和宽度
-            size = self.driver.get_window_size()
-            width = size["width"]
-            height = size["height"]
 
             # 找到删除成员的按钮
-            def to_swipe(driver):
-                driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1)
-                return driver.find_element(**self._delete_person)
+            self.click(**self._delete_person)
 
-            delete_button = WebDriverWait(self.driver, 10).until(to_swipe)
-            print("delete_button：", delete_button)
-            delete_button.click()
             WebDriverWait(self.driver, 10).until(
-                expected_conditions.element_to_be_clickable((AppiumBy.XPATH, "//*[@text='删除']"))).click()
+                expected_conditions.element_to_be_clickable((AppiumBy.ID, "com.tencent.wework:id/cw1"))).click()
 
         return self
