@@ -38,10 +38,22 @@ class ManagePage(BasePage):
         if len(lst) > 1:
             # 进入编辑详情页面
             lst[1].click()
-            # 在编辑的详情页面获取移动设备的长度和宽度
 
             # 找到删除成员的按钮
-            self.click(**self._delete_person)
+            # self.click(**self._delete_person)
+            size = self.driver.get_window_size()
+            width = size["width"]
+            height = size["height"]
+            self.driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1)
+            # while True:
+            #     try:
+            #         self.driver.find_element(**self._delete_person).click()
+            #         break
+            #     except:
+            #         self.driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1)
+
+            WebDriverWait(self.driver, 10).until(
+                expected_conditions.element_to_be_clickable((AppiumBy.XPATH, "//*[@text='删除成员']"))).click()
 
             WebDriverWait(self.driver, 10).until(
                 expected_conditions.element_to_be_clickable((AppiumBy.ID, "com.tencent.wework:id/cw1"))).click()

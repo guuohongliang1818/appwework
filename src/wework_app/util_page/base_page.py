@@ -21,7 +21,7 @@ class BasePage:
             caps["appium:newCommandTimeout"] = 3600
             caps["appium:connectHardwareKeyboard"] = True
             self.driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", caps)
-            # self.driver.implicitly_wait(40)
+            self.driver.implicitly_wait(5)
 
     def close(self):
         self.driver.quit()
@@ -55,4 +55,4 @@ class BasePage:
             size = self.driver.get_window_size()
             width = size["width"]
             height = size["height"]
-            self.driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1, 10)
+            self.driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1)

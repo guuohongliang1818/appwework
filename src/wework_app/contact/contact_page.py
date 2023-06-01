@@ -40,6 +40,3 @@ class ContactPage(BasePage):
         return ShowPersonDetailPage(self.driver)
 
 
-if __name__ == '__main__':
-    lst = [1, 2, 3, 4, 5]
-    print(len())
