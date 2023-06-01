@@ -1,5 +1,7 @@
 # 姓名：郭宏亮
 # 时间：2023/5/27 21:09
+from time import sleep
+
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
@@ -44,16 +46,13 @@ class ManagePage(BasePage):
             size = self.driver.get_window_size()
             width = size["width"]
             height = size["height"]
-            self.driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1)
-            # while True:
-            #     try:
-            #         self.driver.find_element(**self._delete_person).click()
-            #         break
-            #     except:
-            #         self.driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1)
 
-            WebDriverWait(self.driver, 10).until(
-                expected_conditions.element_to_be_clickable((AppiumBy.XPATH, "//*[@text='删除成员']"))).click()
+            def to_swipe(driver):
+                driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1)
+                sleep(0.5)
+                return driver.find_element(**self._delete_person)
+
+            WebDriverWait(self.driver, 10).until(to_swipe).click()
 
             WebDriverWait(self.driver, 10).until(
                 expected_conditions.element_to_be_clickable((AppiumBy.ID, "com.tencent.wework:id/cw1"))).click()
