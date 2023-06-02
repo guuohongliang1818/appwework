@@ -29,6 +29,12 @@ class BasePage:
     def back(self):
         self.driver.back()
 
+    def find_element(self, by, value):
+        return self.driver.find_element(by, value)
+
+    def find_elements(self, by, value):
+        return self.driver.find_element(by, value)
+
     def click(self, by, value):
         try:
             self.driver.find_element(by, value).click()

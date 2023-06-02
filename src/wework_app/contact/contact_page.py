@@ -9,13 +9,22 @@ from src.wework_app.util_page.base_page import BasePage
 
 
 class ContactPage(BasePage):
+    # 搜索按钮
+    _search = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf_")
+    # 文本输入框
+    _input_text = dict(by=AppiumBy.ID, value="com.tencent.wework:id/jn1")
+    # 管理按钮
     _manage = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf5")
+    # 个人详情按钮
+    _person_detail = dict(by=AppiumBy.ID, value="com.tencent.wework:id/f_k")
 
     def __init__(self, driver=None):
         super().__init__(driver=driver)
 
-    def to_search(self):
-        pass
+    def to_search(self, name):
+        self.click(**self._search)
+        self.send_keys(**self._input_text, text=name)
+        return self
 
     def to_manage_page(self):
         self.click(**self._manage)
@@ -37,6 +46,6 @@ class ContactPage(BasePage):
         return AddPersonPage(self.driver)
 
     def to_show_person_detail(self):
+        # 进入个人详情页面
+        self.click(**self._person_detail)
         return ShowPersonDetailPage(self.driver)
-
-
