@@ -11,9 +11,6 @@ class AddPersonPage(BasePage):
     _save = dict(by=AppiumBy.ID, value="com.tencent.wework:id/b0b")
     _to_write = dict(by=AppiumBy.XPATH, value="//*[@text='手动输入添加']")
 
-    def __init__(self, driver=None):
-        super().__init__(driver=driver)
-
     # 定义6种添加成员的方法
     def to_wechat_invite(self):
         return self

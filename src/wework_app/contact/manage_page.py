@@ -3,7 +3,6 @@
 from time import sleep
 
 from appium.webdriver.common.appiumby import AppiumBy
-from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 from src.wework_app.contact.add_person_page import AddPersonPage
@@ -14,11 +13,10 @@ from src.wework_app.util_page.base_page import BasePage
 class ManagePage(BasePage):
     _cancel = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf0")
     _edit = dict(by=AppiumBy.ID, value="com.tencent.wework:id/jeo")
+    # 删除成员按钮
     _delete_person = dict(by=AppiumBy.XPATH, value="//*[@text='删除成员']")
-    _delete = dict(by=AppiumBy.ID, value="com.tencent.wework:id/cw1")
-
-    def __init__(self, driver=None):
-        super().__init__(driver=driver)
+    # 详情页面名字
+    _person_name = dict(by=AppiumBy.ID, value="com.tencent.wework:id/c1a")
 
     def to_add_person_page(self):
         self.click(by=AppiumBy.XPATH, value="//*[@text='添加成员']")
@@ -34,15 +32,16 @@ class ManagePage(BasePage):
         self.click(**self._cancel)
         return ContactPage(self.driver)
 
-    # 删除员工信息
-    def delete_person(self):
+    # 进入编辑员工的页面，点击删除按钮，跳转到删除员工的页面
+    def to_delete_person_page(self):
         lst = self.driver.find_elements(**self._edit)
         if len(lst) > 1:
             # 进入编辑详情页面
             lst[1].click()
-
+            # 获取离职人的名字
+            depart_name = self.find_element(**self._person_name).get_attribute("text")
+            print("depart_name：", depart_name)
             # 找到删除成员的按钮
-            # self.click(**self._delete_person)
             size = self.driver.get_window_size()
             width = size["width"]
             height = size["height"]
@@ -53,8 +52,15 @@ class ManagePage(BasePage):
                 return driver.find_element(**self._delete_person)
 
             WebDriverWait(self.driver, 10).until(to_swipe).click()
+            from src.wework_app.contact.delete_person_page import DeletePersonPage
+            return DeletePersonPage(self.driver, depart_name)
 
-            WebDriverWait(self.driver, 10).until(
-                expected_conditions.element_to_be_clickable((AppiumBy.ID, "com.tencent.wework:id/cw1"))).click()
+        # 停留在管理页面
+        return self
 
+    # 子类DeletePersonPage重写该方法
+    def delete_person(self):
+        return self
+
+    def handle_depart(self):
         return self

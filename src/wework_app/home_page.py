@@ -15,7 +15,6 @@ class HomePage(BasePage):
         caps["appPackage"] = "com.tencent.wework"
         caps["appActivity"] = ".launch.LaunchSplashActivity"
         super().__init__(driver, caps)
-        self.driver.implicitly_wait(3)
 
     def to_message(self):
         pass

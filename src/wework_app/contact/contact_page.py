@@ -18,9 +18,6 @@ class ContactPage(BasePage):
     # 个人详情按钮
     _person_detail = dict(by=AppiumBy.ID, value="com.tencent.wework:id/f_k")
 
-    def __init__(self, driver=None):
-        super().__init__(driver=driver)
-
     def to_search(self, name):
         self.click(**self._search)
         self.send_keys(**self._input_text, text=name)
@@ -47,5 +44,6 @@ class ContactPage(BasePage):
 
     def to_show_person_detail(self):
         # 进入个人详情页面
-        self.click(**self._person_detail)
+        self.find_elements(**self._person_detail)[0].click()
+        # self.click(**self._person_detail)
         return ShowPersonDetailPage(self.driver)

@@ -1,5 +1,7 @@
 # 姓名：郭宏亮
 # 时间：2023/5/22 22:14
+from time import sleep
+
 import allure
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
@@ -33,7 +35,7 @@ class BasePage:
         return self.driver.find_element(by, value)
 
     def find_elements(self, by, value):
-        return self.driver.find_element(by, value)
+        return self.driver.find_elements(by, value)
 
     def click(self, by, value):
         try:

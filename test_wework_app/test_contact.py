@@ -50,7 +50,23 @@ class TestContact:
         # 返回倒通讯录页面
         show_person_detail_page.two_step_back_contact_page()
 
-    @pytest.mark.parametrize("count", range(1, 6))
+    # 从管理页面删除成员
+    @pytest.mark.parametrize("count", range(1, 10))
     def test_delete_person(self, count):
-        # 进入管理页面，删除员工信息，最后取消管理页面，进入通讯录页面
-        self.contact_page.to_manage_page().delete_person().cancel_manage()
+        # 进入管理页面，点击员工找到删除按钮，进入删除员工页面，点击删除按钮<直接返回管理页面>，取消管理
+        self.contact_page \
+            .to_manage_page() \
+            .to_delete_person_page() \
+            .delete_person() \
+            .cancel_manage()
+
+    @pytest.mark.parametrize("count", range(1, 11))
+    def test_depart(self, count):
+        self.contact_page \
+            .to_manage_page() \
+            .to_delete_person_page() \
+            .handle_depart() \
+            .launch_depart() \
+            .input_depart_info_and_launch() \
+            .two_step_back_manage_page()\
+            .cancel_manage()
