@@ -10,7 +10,11 @@ from src.wework_app.home_page import HomePage
 class TestContact:
 
     def setup_class(self):
-        self.contact_page = HomePage().to_contact()
+        self.home_page = HomePage()
+
+    def setup_method(self):
+        # 每次都从首页切换到通讯录，可以获取最新的成员数据
+        self.contact_page = self.home_page.to_message().to_contact()
 
     def teardown_class(self):
         pass
@@ -51,7 +55,7 @@ class TestContact:
         show_person_detail_page.two_step_back_contact_page()
 
     # 从管理页面删除成员
-    @pytest.mark.parametrize("count", range(1, 10))
+    @pytest.mark.parametrize("count", range(1, 6))
     def test_delete_person(self, count):
         # 进入管理页面，点击员工找到删除按钮，进入删除员工页面，点击删除按钮<直接返回管理页面>，取消管理
         self.contact_page \
@@ -60,8 +64,8 @@ class TestContact:
             .delete_person() \
             .cancel_manage()
 
-    # @pytest.mark.parametrize("count", range(1, 11))
-    def test_depart(self):
+    @pytest.mark.parametrize("count", range(1, 11))
+    def test_depart(self, count):
         self.contact_page \
             .to_manage_page() \
             .to_delete_person_page() \

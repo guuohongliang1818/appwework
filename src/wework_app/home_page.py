@@ -17,7 +17,8 @@ class HomePage(BasePage):
         super().__init__(driver, caps)
 
     def to_message(self):
-        pass
+        self.click(by=AppiumBy.XPATH, value="//*[@text='消息']")
+        return self
 
     def to_email(self):
         pass
