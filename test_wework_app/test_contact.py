@@ -60,13 +60,12 @@ class TestContact:
             .delete_person() \
             .cancel_manage()
 
-    @pytest.mark.parametrize("count", range(1, 11))
-    def test_depart(self, count):
+    # @pytest.mark.parametrize("count", range(1, 11))
+    def test_depart(self):
         self.contact_page \
             .to_manage_page() \
             .to_delete_person_page() \
             .handle_depart() \
             .launch_depart() \
             .input_depart_info_and_launch() \
-            .two_step_back_manage_page()\
-            .cancel_manage()
+            .search_and_confirm_depart()
