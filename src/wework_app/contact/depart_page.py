@@ -81,6 +81,7 @@ class DepartPage(BasePage):
             lambda x: len(x.find_elements(**self._search_launch_name)) == 3)
         self.find_elements(**self._search_launch_name)[0].click()
         self.send_keys(**self._search_person_name, text=self.name)
+        sleep(1)
         self.click(by=AppiumBy.XPATH, value="//*[contains(@content-desc,'" + self.name + "')]")
         self.click(by=AppiumBy.ACCESSIBILITY_ID, value="确认离职")
         WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(
