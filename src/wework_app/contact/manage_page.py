@@ -11,7 +11,7 @@ from src.wework_app.util_page.base_page import BasePage
 
 
 class ManagePage(BasePage):
-    _cancel = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf0")
+    _cancel_manage = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf0")
     _edit = dict(by=AppiumBy.ID, value="com.tencent.wework:id/jeo")
     # 删除成员按钮
     _delete_person = dict(by=AppiumBy.XPATH, value="//*[@text='删除成员']")
@@ -29,7 +29,7 @@ class ManagePage(BasePage):
         return
 
     def cancel_manage(self):
-        self.click(**self._cancel)
+        self.click(**self._cancel_manage)
         return ContactPage(self.driver)
 
     # 进入编辑员工的页面，点击删除按钮，跳转到删除员工的页面
@@ -63,4 +63,7 @@ class ManagePage(BasePage):
         return self
 
     def handle_depart(self):
+        return self
+
+    def cancel_delete(self):
         return self

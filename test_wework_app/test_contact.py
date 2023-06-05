@@ -64,6 +64,15 @@ class TestContact:
             .delete_person() \
             .cancel_manage()
 
+    @pytest.mark.parametrize("count", range(1, 6))
+    def test_cancel_delete(self, count):
+        # 进入管理页面，点击员工详情，找到删除按员工，弹出删除员工对话框，点击取消，退出详情页面，取消管理
+        self.contact_page \
+            .to_manage_page() \
+            .to_delete_person_page() \
+            .cancel_delete() \
+            .cancel_manage()
+
     @pytest.mark.parametrize("count", range(1, 11))
     def test_depart(self, count):
         self.contact_page \

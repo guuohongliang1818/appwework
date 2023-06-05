@@ -13,6 +13,8 @@ class DeletePersonPage(ManagePage):
     _delete = dict(by=AppiumBy.ID, value="com.tencent.wework:id/cw1")
     # 办理离职
     _handle_depart = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lah")
+    # 取消
+    _cancel_delete = dict(by=AppiumBy.ID, value="com.tencent.wework:id/bda")
 
     def __init__(self, driver=None, depart_name=None):
         self.depart_name = depart_name
@@ -26,3 +28,8 @@ class DeletePersonPage(ManagePage):
         self.click(**self._handle_depart)
         print("DeletePersonPage：", self.depart_name)
         return DepartPage(self.driver, self.depart_name)
+
+    def cancel_delete(self):
+        self.click(**self._cancel_delete)
+        self.back()
+        return ManagePage(self.driver)
