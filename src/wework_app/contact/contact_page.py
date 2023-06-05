@@ -18,10 +18,17 @@ class ContactPage(BasePage):
     # 个人详情按钮
     _person_detail = dict(by=AppiumBy.ID, value="com.tencent.wework:id/f_k")
 
-    def to_search(self, name):
+    def to_search_person(self, name):
         self.click(**self._search)
         self.send_keys(**self._input_text, text=name)
         return self
+
+    def to_search_sub_department(self, sub_department):
+        self.click(**self._search)
+        self.send_keys(**self._input_text, text=sub_department)
+        sub_department = self.find_element(by=AppiumBy.XPATH,
+                                           value="//android.widget.TextView[@text='" + sub_department + "']").text
+        return sub_department
 
     def to_manage_page(self):
         self.click(**self._manage)

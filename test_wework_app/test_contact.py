@@ -29,7 +29,7 @@ class TestContact:
             .to_add_person_page() \
             .to_write(name, phone) \
             .back_contact_page() \
-            .to_search(name) \
+            .to_search_person(name) \
             .to_show_person_detail()
 
         assert name == show_person_detail_page.get_show_person_detail().get("name")
@@ -48,7 +48,7 @@ class TestContact:
             .to_write(name, phone) \
             .back_manage_page() \
             .cancel_manage() \
-            .to_search(name) \
+            .to_search_person(name) \
             .to_show_person_detail()
         assert name == show_person_detail_page.get_show_person_detail().get("name")
         # 返回倒通讯录页面
