@@ -48,6 +48,20 @@ class ManagePage(BasePage):
 
     # 进入编辑员工的页面，点击删除按钮，跳转到删除员工的页面
     def to_delete_person_page(self):
+        """
+            逻辑补充：
+                if 该条目是人员信息：
+                    进入人员详情页面，
+                    点击删除成员按钮，
+                    进行删除操作
+                    删除成功进入部门管理页面
+                else 该条目是部门信息：
+                    进入部门管理页面
+
+
+
+
+        """
         lst = self.driver.find_elements(**self._edit)
         if len(lst) > 1:
             # 进入编辑详情页面
