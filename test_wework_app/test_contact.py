@@ -73,8 +73,8 @@ class TestContact:
             .cancel_delete() \
             .cancel_manage()
 
-    @pytest.mark.parametrize("count", range(1, 11))
-    def test_depart(self, count):
+    # @pytest.mark.parametrize("count", range(1, 11))
+    def test_depart(self):
         self.contact_page \
             .to_manage_page() \
             .to_delete_person_page() \

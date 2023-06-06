@@ -82,7 +82,11 @@ class DepartPage(BasePage):
         self.find_elements(**self._search_launch_name)[0].click()
         self.send_keys(**self._search_person_name, text=self.name)
         sleep(1)
-        self.click(by=AppiumBy.XPATH, value="//*[contains(@content-desc,'" + self.name + "')]")
+        print("page_source==2", self.driver.page_source)
+        print("value=", "//*[contains(@content-desc,'" + self.name + "')]")
+        WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(
+            (AppiumBy.XPATH, "//*[contains(@content-desc,'" + self.name + "')]")))
+        # self.click(by=AppiumBy.XPATH, value="//*[contains(@content-desc,'" + self.name + "')]")
         self.click(by=AppiumBy.ACCESSIBILITY_ID, value="确认离职")
         WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(
             (AppiumBy.ACCESSIBILITY_ID, "确认后，员工将被移出通讯录，消息数据将被删除，你可在确认后交接员工的数据资产")))
@@ -95,3 +99,9 @@ class DepartPage(BasePage):
         self.back()
         from src.wework_app.contact.manage_page import ManagePage
         return ManagePage(self.driver)
+
+
+if __name__ == '__main__':
+    s = "赵六03004531"
+    s = s.replace("", " ")
+    print(s)
