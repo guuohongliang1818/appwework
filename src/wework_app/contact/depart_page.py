@@ -83,9 +83,11 @@ class DepartPage(BasePage):
         self.send_keys(**self._search_person_name, text=self.name)
         sleep(1)
         print("page_source==2", self.driver.page_source)
-        print("value=", "//*[contains(@content-desc,'" + self.name[0:1:] + "')]")
+        print("value=", "*[content-desc|=" + self.name + "]")
+        # WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(
+        #     (AppiumBy.XPATH, "//*[contains(@content-desc,'" + self.name[0:1:] + "')]"))).click()
         WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(
-            (AppiumBy.XPATH, "//*[contains(@content-desc,'" + self.name[0:1:] + "')]"))).click()
+            (AppiumBy.CSS_SELECTOR, "*[content-desc|=" + self.name + "]"))).click()
         # self.click(by=AppiumBy.XPATH, value="//*[contains(@content-desc,'" + self.name + "')]")
         self.click(by=AppiumBy.ACCESSIBILITY_ID, value="确认离职")
         WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(
