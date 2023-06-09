@@ -11,6 +11,11 @@ from src.wework_app.util_page.base_page import BasePage
 
 
 class ManagePage(BasePage):
+    # 管理通讯录
+    _manage_contact = dict(by=AppiumBy.ID, value="com.tencent.wework:id/len")
+    # 蓝天科技有限公司/非公司名称
+    _blue_sky_tech = dict(by=AppiumBy.ID, value="com.tencent.wework:id/let")
+
     _cancel_manage = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf0")
     # 编辑员工操作按钮：com.tencent.wework:id/j_a
     _edit = dict(by=AppiumBy.ID, value="com.tencent.wework:id/jeo")
@@ -48,20 +53,6 @@ class ManagePage(BasePage):
 
     # 进入编辑员工的页面，点击删除按钮，跳转到删除员工的页面
     def to_delete_person_page(self):
-        """
-            逻辑补充：
-                if 该条目是人员信息：
-                    进入人员详情页面，
-                    点击删除成员按钮，
-                    进行删除操作
-                    删除成功进入部门管理页面
-                else 该条目是部门信息：
-                    进入部门管理页面
-
-
-
-
-        """
         lst = self.driver.find_elements(**self._edit)
         if len(lst) > 1:
             # 进入编辑详情页面
@@ -99,5 +90,74 @@ class ManagePage(BasePage):
             driver.swipe(self.width * 0.5, self.height * 0.9, self.width * 0.5, self.height * 0.1)
             sleep(0.5)
             return driver.find_element(by=AppiumBy.XPATH, value="//*[@text='" + sub_depart + "']")
+
         WebDriverWait(self.driver, 10).until(to_swipe).click()
         return self
+
+    def to_delete_sub_person(self):
+        """
+        逻辑补充：
+            首先判断一下是是不是公司管理页面
+            if 管理通讯录 && 公司管理页面：
+                获取列表的第2条信息
+                if 该条目是人员信息：
+                    进入人员详情页面，
+                    点击删除成员按钮，
+                    进行删除操作
+                    删除成功进入部门管理页面
+                    return
+                else 进入部门管理页面：
+                    获取该列表的第1条信息：
+                    if 有第一条信息：
+                        进入人员详情页面
+                        点击删除成员按钮，
+                        进行删除操作
+                        删除成功进入部门管理页面
+                        return
+                    else
+                        删除部门
+                        return
+            else 管理通讯录
+                获取列表的第1条信息
+                if 该条目是人员信息：
+                    进入人员详情页面，
+                    点击删除成员按钮，
+                    进行删除操作
+                    删除成功进入部门管理页面
+                    return
+                else 进入部门管理页面：
+                    获取该列表的第1条信息：
+                    if 有第一条信息：
+                        进入人员详情页面
+                        点击删除成员按钮，
+                        进行删除操作
+                        删除成功进入部门管理页面
+                        return
+                    else
+                        删除部门
+                        return
+            else
+                进入人员详情页面，
+                点击删除成员按钮，
+                进行删除操作
+                删除成功进入部门管理页面
+                return
+        """
+        is_manage_contact = WebDriverWait(self.driver, 1).until(
+            lambda x: "管理通讯录" == x.find_elements(**self._manage_contact).get_attribute("text"))
+        is_blue_sky_tech = WebDriverWait(self.driver, 1).until(
+            lambda x: "蓝天科技有限公司" == x.find_elements(**self._blue_sky_tech).get_attribute("text"))
+
+        if is_manage_contact and is_manage_contact:
+            # 公司管理通讯录页面
+            lst = self.driver.find_elements(**self._edit)
+            if len(lst) > 1:
+                lst[1].click()
+                return self.to_delete_sub_person()
+            return self
+        elif is_manage_contact and not is_manage_contact:
+            # 非公司管理通讯录页面
+            pass
+        else:
+            # 编辑成员页面
+            pass
