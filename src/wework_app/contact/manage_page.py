@@ -19,6 +19,8 @@ class ManagePage(BasePage):
     _cancel_manage = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf0")
     # 编辑员工操作按钮：com.tencent.wework:id/j_a
     _edit = dict(by=AppiumBy.ID, value="com.tencent.wework:id/jeo")
+    # 部门
+    _department = dict(by=AppiumBy.ID, value="com.tencent.wework:id/mid1Txt")
     # 删除成员按钮
     _delete_person = dict(by=AppiumBy.XPATH, value="//*[@text='删除成员']")
     # 详情页面名字
@@ -27,6 +29,8 @@ class ManagePage(BasePage):
     _input_sub_department = dict(by=AppiumBy.ID, value="com.tencent.wework:id/cmj")
     # 确定输入的部门名称
     _confirm_sub_department = dict(by=AppiumBy.ID, value="com.tencent.wework:id/cmw")
+    # 确定删除部门按钮
+    _confirm_delete_department = dict(by=AppiumBy.ID, value="com.tencent.wework:id/cmw")
 
     def __init__(self, driver=None):
         super().__init__(driver)
@@ -45,7 +49,10 @@ class ManagePage(BasePage):
         return self
 
     def to_more_manage_page(self):
-        return
+        self.click(by=AppiumBy.XPATH, value="//*[@text='更多管理']")
+        self.click(by=AppiumBy.XPATH, value="//*[@text='删除部门']")
+        self.click(**self._confirm_delete_department)
+        return self
 
     def cancel_manage(self):
         self.click(**self._cancel_manage)
@@ -94,7 +101,8 @@ class ManagePage(BasePage):
         WebDriverWait(self.driver, 10).until(to_swipe).click()
         return self
 
-    def to_delete_sub_person(self):
+    def to_recursive_delete_department_person(self):
+        sleep(0.5)
         """
         逻辑补充：
             首先判断一下是是不是公司管理页面
@@ -143,21 +151,50 @@ class ManagePage(BasePage):
                 删除成功进入部门管理页面
                 return
         """
-        is_manage_contact = WebDriverWait(self.driver, 1).until(
-            lambda x: "管理通讯录" == x.find_elements(**self._manage_contact).get_attribute("text"))
-        is_blue_sky_tech = WebDriverWait(self.driver, 1).until(
-            lambda x: "蓝天科技有限公司" == x.find_elements(**self._blue_sky_tech).get_attribute("text"))
+        lst1 = self.driver.find_elements(**self._manage_contact)
+        is_manage_contact = False
+        if len(lst1) > 0:
+            is_manage_contact = "管理通讯录" == lst1[0].get_attribute("text")
 
-        if is_manage_contact and is_manage_contact:
+        lst2 = self.driver.find_elements(**self._blue_sky_tech)
+        is_blue_sky_tech = False
+        if len(lst2) > 0:
+            is_blue_sky_tech = "蓝天科技有限公司" == lst2[0].get_attribute("text")
+
+        if is_manage_contact and is_blue_sky_tech:
             # 公司管理通讯录页面
-            lst = self.driver.find_elements(**self._edit)
-            if len(lst) > 1:
-                lst[1].click()
+            lst3 = self.driver.find_elements(**self._edit)
+
+            if len(lst3) > 1:  # 如果大于1，则进行删除成员的操作
+                lst3[1].click()
                 return self.to_delete_sub_person()
+            elif len(lst3) == 1:  # 如果==1，则进行删除部门中的成员操作
+                lst4 = self.driver.find_elements(**self._department)  # 查看部门列表
+                if len(lst4) > 0:  # 如果部门列表大于0，则进入部门中
+                    lst4[0].click()
+                    return self.to_delete_sub_person()
             return self
-        elif is_manage_contact and not is_manage_contact:
+        elif is_manage_contact and not is_blue_sky_tech:  # 删除部门中的人员
             # 非公司管理通讯录页面
-            pass
+            lst5 = self.driver.find_elements(**self._edit)  # 查看部门列表中的人员
+            if len(lst5) > 1:  # 如果有人员则删除人员信息
+                lst5[0].click()
+                return self.to_delete_sub_person()
+            elif len(lst5) == 1:  # 没有人员，则删除部门信息
+                self.to_more_manage_page()
+            return self
         else:
             # 编辑成员页面
-            pass
+            # 获取离职人的名字
+            depart_name = self.find_element(**self._person_name).get_attribute("text")
+            print("depart_name：", depart_name)
+
+            # 找到删除成员的按钮
+            def to_swipe(driver):
+                driver.swipe(self.width * 0.5, self.height * 0.9, self.width * 0.5, self.height * 0.1)
+                sleep(0.5)
+                return driver.find_element(**self._delete_person)
+
+            WebDriverWait(self.driver, 3).until(to_swipe).click()
+            from src.wework_app.contact.delete_person_page import DeletePersonPage
+            return DeletePersonPage(self.driver, depart_name)

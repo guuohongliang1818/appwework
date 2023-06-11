@@ -6,6 +6,7 @@ import allure
 from appium import webdriver
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.support.wait import WebDriverWait
 
 
 class BasePage:
@@ -23,7 +24,7 @@ class BasePage:
             caps["appium:newCommandTimeout"] = 3600
             caps["appium:connectHardwareKeyboard"] = True
             self.driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", caps)
-            self.driver.implicitly_wait(5)
+            self.driver.implicitly_wait(2)
 
     def close(self):
         self.driver.quit()

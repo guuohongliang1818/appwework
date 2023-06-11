@@ -82,3 +82,10 @@ class TestContact:
             .launch_depart() \
             .input_depart_info_and_launch() \
             .search_and_confirm_depart()
+
+    @pytest.mark.parametrize("count", range(1, 20))
+    def test_to_delete_sub_person(self, count):
+        self.contact_page.to_manage_page() \
+            .to_recursive_delete_department_person() \
+            .delete_person() \
+            .cancel_manage()
