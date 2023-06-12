@@ -50,3 +50,6 @@ class AddPersonPage(BasePage):
         self.back()
         from src.wework_app.contact.contact_page import ContactPage
         return ContactPage(self.driver)
+
+    def cancel_manage(self):
+        pass

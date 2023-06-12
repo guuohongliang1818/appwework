@@ -107,27 +107,8 @@ class ManagePage(BasePage):
         """
         逻辑补充：
             首先判断一下是是不是公司管理页面
-            if 管理通讯录 && 公司管理页面：
+            if 管理通讯录：
                 获取列表的第2条信息
-                if 该条目是人员信息：
-                    进入人员详情页面，
-                    点击删除成员按钮，
-                    进行删除操作
-                    删除成功进入部门管理页面
-                    return
-                else 进入部门管理页面：
-                    获取该列表的第1条信息：
-                    if 有第一条信息：
-                        进入人员详情页面
-                        点击删除成员按钮，
-                        进行删除操作
-                        删除成功进入部门管理页面
-                        return
-                    else
-                        删除部门
-                        return
-            else 管理通讯录
-                获取列表的第1条信息
                 if 该条目是人员信息：
                     进入人员详情页面，
                     点击删除成员按钮，
@@ -157,33 +138,36 @@ class ManagePage(BasePage):
         if len(lst1) > 0:
             is_manage_contact = "管理通讯录" == lst1[0].get_attribute("text")
 
-        lst2 = self.driver.find_elements(**self._blue_sky_tech)
-        is_blue_sky_tech = False
-        if len(lst2) > 0:
-            is_blue_sky_tech = "蓝天科技有限公司" == lst2[0].get_attribute("text")
-
-        if is_manage_contact and is_blue_sky_tech:
-            # 公司管理通讯录页面
-            lst3 = self.driver.find_elements(**self._edit)
-
-            if len(lst3) > 1:  # 如果大于1，则进行删除成员的操作
-                lst3[1].click()
+        if is_manage_contact:
+            # 公司管理通讯录页面和部门管理通讯录页面
+            lst2 = self.driver.find_elements(**self._edit)
+            if len(lst2) > 1:  # 如果大于1，则进行删除成员的操作
+                lst2[1].click()
                 return self.to_recursive_delete_department_person()
-            elif len(lst3) == 1:  # 如果==1，则进行删除部门中的成员操作
-                lst4 = self.driver.find_elements(**self._department)  # 查看部门列表
-                if len(lst4) > 0:  # 如果部门列表大于0，则进入部门中
-                    lst4[0].click()
+            elif len(lst2) == 1:  # 如果==1，则进行删除部门中的成员操作
+                page_source = self.driver.page_source
+                print("page_source==", page_source)
+                lst3 = self.driver.find_elements(**self._department)  # 查部门列表看
+                if len(lst3) > 0:  # 如果部门列表大于0，则进入部门中
+                    lst3[0].click()
                     return self.to_recursive_delete_department_person()
+                else:
+                    return self.to_more_manage_page()
             return self
-        elif is_manage_contact and not is_blue_sky_tech:  # 删除部门中的人员
-            # 非公司管理通讯录页面
-            lst5 = self.driver.find_elements(**self._edit)  # 查看部门列表中的人员
-            if len(lst5) > 1:  # 如果有人员则删除人员信息
-                lst5[0].click()
-                return self.to_recursive_delete_department_person()
-            elif len(lst5) == 1:  # 没有人员，则删除部门信息
-                self.to_more_manage_page()
-            return self
+        # elif is_manage_contact and not is_blue_sky_tech:  # 删除部门中的人员
+        #     # 非公司管理通讯录页面
+        #     lst5 = self.driver.find_elements(**self._edit)  # 查看部门列表中的人员
+        #     if len(lst5) > 1:  # 如果有人员则删除人员信息
+        #         lst5[0].click()
+        #         return self.to_recursive_delete_department_person()
+        #     elif len(lst5) == 1:  # 没有人员，则删除部门信息
+        #         lst6 = self.driver.find_elements(**self._department)  # 查看部门列表
+        #         if len(lst6) > 0:  # 如果部门列表大于0，则进入部门中
+        #             lst6[0].click()
+        #             return self.to_recursive_delete_department_person()
+        #         else:  # 删除部门信息
+        #             return self.to_more_manage_page()
+        #     return self
         else:
             # 编辑成员页面
             # 获取离职人的名字

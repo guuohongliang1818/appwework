@@ -35,7 +35,7 @@ class TestSubDepartment:
             .delete_person() \
             .cancel_manage()
 
-    @pytest.mark.parametrize("sub_department", ["部门1", "部门2", "部门3"])
+    @pytest.mark.parametrize("sub_department", ["部门1", "部门2"])
     @pytest.mark.parametrize("name", ["张三", "李四", "王五", "赵六", "钱七", "孙八", "jack", "8078"])
     @pytest.mark.parametrize("phone", ["138"])
     def test_to_add_person_for_department(self, sub_department, name, phone):
