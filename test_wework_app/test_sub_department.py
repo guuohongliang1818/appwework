@@ -16,7 +16,17 @@ class TestSubDepartment:
     def teardown_class(self):
         pass
 
+    # 添加部门
     @pytest.mark.parametrize("sub_department", ["部门1", "部门2", "部门3"])
     def test_add_sub_department(self, sub_department):
         assert sub_department == self.contact_page.to_manage_page().to_add_sub_department(
             sub_department).cancel_manage().to_search_sub_department(sub_department)
+
+    # 递归删除成员和部门成员
+    @pytest.mark.parametrize("count", range(1, 20))
+    def test_to_recursive_delete_department_person(self, count):
+        self.contact_page \
+            .to_manage_page() \
+            .to_recursive_delete_department_person() \
+            .delete_person() \
+            .cancel_manage()
