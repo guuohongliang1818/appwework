@@ -27,7 +27,9 @@ class DeletePersonPage(ManagePage):
     def handle_depart(self):
         self.click(**self._handle_depart)
         print("DeletePersonPage：", self.depart_name)
-        return DepartPage(self.driver, self.depart_name)
+        depart_page = DepartPage(self.driver, self.depart_name)
+        return_page = depart_page.launch_depart().input_depart_info_and_launch().search_and_confirm_depart()
+        return return_page
 
     def cancel_delete(self):
         self.click(**self._cancel_delete)

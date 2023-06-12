@@ -42,7 +42,7 @@ class DepartPage(BasePage):
 
     def launch_depart(self):
         # 有弹出框，确认弹出框已弹出，在取消，并且取消按钮可点击
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 5).until(
             expected_conditions.visibility_of_element_located((AppiumBy.ACCESSIBILITY_ID, "为员工发起离职")))
         sleep(0.5)
         # 取消弹出框
@@ -82,23 +82,26 @@ class DepartPage(BasePage):
         self.find_elements(**self._search_launch_name)[0].click()
         self.send_keys(**self._search_person_name, text=self.name)
         sleep(1)
-        print("page_source==2", self.driver.page_source)
-        print("value=", "*[content-desc|=" + self.name + "]")
-        # WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(
-        #     (AppiumBy.XPATH, "//*[contains(@content-desc,'" + self.name[0:1:] + "')]"))).click()
+        # print("page_source==2", self.driver.page_source)
         WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(
-            (AppiumBy.CSS_SELECTOR, "*[content-desc|=" + self.name + "]"))).click()
+            (AppiumBy.XPATH, "//*[contains(@content-desc,'" + self.name[0:1:] + "')]"))).click()
         # self.click(by=AppiumBy.XPATH, value="//*[contains(@content-desc,'" + self.name + "')]")
         self.click(by=AppiumBy.ACCESSIBILITY_ID, value="确认离职")
         WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(
             (AppiumBy.ACCESSIBILITY_ID, "确认后，员工将被移出通讯录，消息数据将被删除，你可在确认后交接员工的数据资产")))
         self.click(by=AppiumBy.ACCESSIBILITY_ID, value="确认离职")
-
-    def two_step_back_manage_page(self):
-        sleep(1)
+        # 返回到管理页面
+        sleep(0.5)
+        self.back()  # 一步退回到员工详情
+        sleep(0.5)
         self.back()
-        sleep(1)
-        self.back()
+        sleep(0.5)
+        # 点击取消按钮，退回到离职管理页面
+        self.click(by=AppiumBy.XPATH, value="//android.view.View[@content-desc='取消']")
+        sleep(0.5)
+        self.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="​离​职​管​理​")
+        # 退回到管理通讯录页面
+        self.find_elements(by=AppiumBy.XPATH, value="//android.widget.Button[@index='0']")[0].click()
         from src.wework_app.contact.manage_page import ManagePage
         return ManagePage(self.driver)
 

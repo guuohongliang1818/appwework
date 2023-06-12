@@ -58,7 +58,7 @@ class ManagePage(BasePage):
         self.click(**self._cancel_manage)
         return ContactPage(self.driver)
 
-    # 进入编辑员工的页面，点击删除按钮，跳转到删除员工的页面
+    # 进入编辑员工的页面，点击删除按钮，跳转到删除员工的页面，可进行删除员工，办理离职，取消等功能
     def to_delete_person_page(self):
         lst = self.driver.find_elements(**self._edit)
         if len(lst) > 1:
@@ -91,7 +91,7 @@ class ManagePage(BasePage):
     def cancel_delete(self):
         return self
 
-    def to_sub_department_manage(self, sub_depart):
+    def to_find_sub_department_manage(self, sub_depart):
         # 滑动窗口找到创建的部门，可进行添加员工操作
         def to_swipe(driver):
             driver.swipe(self.width * 0.5, self.height * 0.9, self.width * 0.5, self.height * 0.1)
@@ -101,6 +101,7 @@ class ManagePage(BasePage):
         WebDriverWait(self.driver, 10).until(to_swipe).click()
         return self
 
+    # 该方法为批量递归删除部门员工信息，如果部门没有员工，则删除部门信息
     def to_recursive_delete_department_person(self):
         sleep(0.5)
         """
