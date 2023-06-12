@@ -21,6 +21,10 @@ class ManagePage(BasePage):
     _edit = dict(by=AppiumBy.ID, value="com.tencent.wework:id/jeo")
     # 部门
     _department = dict(by=AppiumBy.ID, value="com.tencent.wework:id/mid1Txt")
+    _department_xpath = dict(by=AppiumBy.XPATH,
+                             value="//*[@class='androidx.recyclerview.widget.RecyclerView'][1]"
+                                   "/android.view.ViewGroup"
+                                   "/android.widget.TextView[@resource-id='com.tencent.wework:id/mid1Txt'][1]")
     # 删除成员按钮
     _delete_person = dict(by=AppiumBy.XPATH, value="//*[@text='删除成员']")
     # 详情页面名字
@@ -103,7 +107,6 @@ class ManagePage(BasePage):
 
     # 该方法为批量递归删除部门员工信息，如果部门没有员工，则删除部门信息
     def to_recursive_delete_department_person(self):
-        sleep(0.5)
         """
         逻辑补充：
             首先判断一下是是不是公司管理页面
@@ -133,6 +136,7 @@ class ManagePage(BasePage):
                 删除成功进入部门管理页面
                 return
         """
+        sleep(0.5)
         lst1 = self.driver.find_elements(**self._manage_contact)
         is_manage_contact = False
         if len(lst1) > 0:
@@ -140,13 +144,15 @@ class ManagePage(BasePage):
 
         if is_manage_contact:
             # 公司管理通讯录页面和部门管理通讯录页面
+            page_source1 = self.driver.page_source
+            print("page_source111==", page_source1)
             lst2 = self.driver.find_elements(**self._edit)
             if len(lst2) > 1:  # 如果大于1，则进行删除成员的操作
                 lst2[1].click()
                 return self.to_recursive_delete_department_person()
             elif len(lst2) == 1:  # 如果==1，则进行删除部门中的成员操作
-                page_source = self.driver.page_source
-                print("page_source==", page_source)
+                page_source2 = self.driver.page_source
+                print("page_source222==", page_source2)
                 lst3 = self.driver.find_elements(**self._department)  # 查部门列表看
                 if len(lst3) > 0:  # 如果部门列表大于0，则进入部门中
                     lst3[0].click()
