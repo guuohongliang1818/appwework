@@ -154,20 +154,6 @@ class ManagePage(BasePage):
                 else:
                     return self.to_more_manage_page()
             return self
-        # elif is_manage_contact and not is_blue_sky_tech:  # 删除部门中的人员
-        #     # 非公司管理通讯录页面
-        #     lst5 = self.driver.find_elements(**self._edit)  # 查看部门列表中的人员
-        #     if len(lst5) > 1:  # 如果有人员则删除人员信息
-        #         lst5[0].click()
-        #         return self.to_recursive_delete_department_person()
-        #     elif len(lst5) == 1:  # 没有人员，则删除部门信息
-        #         lst6 = self.driver.find_elements(**self._department)  # 查看部门列表
-        #         if len(lst6) > 0:  # 如果部门列表大于0，则进入部门中
-        #             lst6[0].click()
-        #             return self.to_recursive_delete_department_person()
-        #         else:  # 删除部门信息
-        #             return self.to_more_manage_page()
-        #     return self
         else:
             # 编辑成员页面
             # 获取离职人的名字

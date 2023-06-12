@@ -10,6 +10,8 @@ class AddPersonPage(BasePage):
     _input_phone = dict(by=AppiumBy.ID, value="com.tencent.wework:id/iaq")
     _save = dict(by=AppiumBy.ID, value="com.tencent.wework:id/b0b")
     _to_write = dict(by=AppiumBy.XPATH, value="//*[@text='手动输入添加']")
+    # x掉管理页面
+    _x_operate = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf0")
 
     # 定义6种添加成员的方法
     def to_wechat_invite(self):
@@ -51,5 +53,3 @@ class AddPersonPage(BasePage):
         from src.wework_app.contact.contact_page import ContactPage
         return ContactPage(self.driver)
 
-    def cancel_manage(self):
-        pass

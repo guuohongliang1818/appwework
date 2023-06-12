@@ -17,24 +17,16 @@ class TestSubDepartment:
         pass
 
     # 添加部门
-    @pytest.mark.parametrize("sub_department", ["部门1", "部门2", "部门3"])
+    @pytest.mark.parametrize("sub_department", ["部门10", "部门11", "部门12"])
     def test_add_sub_department(self, sub_department):
         contact_page = self.contact_page \
             .to_manage_page() \
             .to_add_sub_department(sub_department) \
             .cancel_manage()
         assert sub_department == contact_page.to_search_sub_department(sub_department)
-        contact_page.back()
+        contact_page.cancel_search()
 
-    # 递归删除成员和部门成员
-    @pytest.mark.parametrize("count", range(1, 20))
-    def test_to_recursive_delete_department_person(self, count):
-        self.contact_page \
-            .to_manage_page() \
-            .to_recursive_delete_department_person() \
-            .delete_person() \
-            .cancel_manage()
-
+    # 为部门中添加员工
     @pytest.mark.parametrize("sub_department", ["部门1", "部门2"])
     @pytest.mark.parametrize("name", ["张三", "李四", "王五", "赵六", "钱七", "孙八", "jack", "8078"])
     @pytest.mark.parametrize("phone", ["138"])
@@ -46,10 +38,20 @@ class TestSubDepartment:
             .to_find_sub_department_manage(sub_department) \
             .to_add_person_page() \
             .to_write(name, phone) \
-            .back_contact_page() \
+            .back_manage_page() \
+            .cancel_manage() \
             .to_search_person(name) \
             .to_show_person_detail()
 
         assert name == show_person_detail_page.get_show_person_detail().get("name")
         # 返回到通讯录页面
         show_person_detail_page.one_step_back_contact_page()
+
+    # 递归删除成员和部门成员
+    @pytest.mark.parametrize("count", range(1, 20))
+    def test_to_recursive_delete_department_person(self, count):
+        self.contact_page \
+            .to_manage_page() \
+            .to_recursive_delete_department_person() \
+            .delete_person() \
+            .cancel_manage()

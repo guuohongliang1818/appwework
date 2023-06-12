@@ -17,6 +17,8 @@ class ContactPage(BasePage):
     _manage = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf5")
     # 个人详情按钮
     _person_detail = dict(by=AppiumBy.ID, value="com.tencent.wework:id/f_k")
+    # 退出搜索按钮
+    _cancel_search = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lea")
 
     def to_search_person(self, name):
         self.click(**self._search)
@@ -54,3 +56,7 @@ class ContactPage(BasePage):
         self.find_elements(**self._person_detail)[0].click()
         # self.click(**self._person_detail)
         return ShowPersonDetailPage(self.driver)
+
+    def cancel_search(self):
+        self.click(**self._cancel_search)
+        return self
