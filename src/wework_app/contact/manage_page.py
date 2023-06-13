@@ -136,9 +136,8 @@ class ManagePage(BasePage):
                 删除成功进入部门管理页面
                 return
         """
-        # sleep(0.5)
-        lst1 = WebDriverWait(self.driver, 2).until(lambda x: x.find_elements(**self._manage_contact))
-        # lst1 = self.driver.find_elements(**self._manage_contact)
+        sleep(0.5)
+        lst1 = self.driver.find_elements(**self._manage_contact)
         is_manage_contact = False
         if len(lst1) > 0:
             is_manage_contact = "管理通讯录" == lst1[0].get_attribute("text")
@@ -147,15 +146,14 @@ class ManagePage(BasePage):
             # 公司管理通讯录页面和部门管理通讯录页面
             page_source1 = self.driver.page_source
             print("page_source111==", page_source1)
-            lst2 = WebDriverWait(self.driver, 2).until(lambda x: x.find_elements(**self._edit))
+            lst2 = self.driver.find_elements(**self._edit)
             if len(lst2) > 1:  # 如果大于1，则进行删除成员的操作
                 lst2[1].click()
                 return self.to_recursive_delete_department_person()
             elif len(lst2) == 1:  # 如果==1，则进行删除部门中的成员操作
                 page_source2 = self.driver.page_source
                 print("page_source222==", page_source2)
-                lst3 = WebDriverWait(self.driver, 2).until(
-                    lambda x: x.find_elements(**self._department_xpath))  # 查部门列表看
+                lst3 = self.driver.find_elements(**self._department_xpath)  # 查部门列表看
                 if len(lst3) > 0:  # 如果部门列表大于0，则进入部门中
                     lst3[0].click()
                     return self.to_recursive_delete_department_person()
