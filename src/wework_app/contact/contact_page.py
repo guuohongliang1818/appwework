@@ -48,7 +48,7 @@ class ContactPage(BasePage):
             driver.swipe(width * 0.5, height * 0.8, width * 0.5, height * 0.2)
             return driver.find_element(by=AppiumBy.XPATH, value="//*[@text='添加成员']")
 
-        WebDriverWait(self.driver, 5).until(to_swipe).click()
+        WebDriverWait(self.driver, 3).until(to_swipe).click()
         return AddPersonPage(self.driver)
 
     def to_show_person_detail(self):
