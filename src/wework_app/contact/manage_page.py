@@ -78,7 +78,7 @@ class ManagePage(BasePage):
                 sleep(0.5)
                 return driver.find_element(**self._delete_person)
 
-            WebDriverWait(self.driver, 10).until(to_swipe).click()
+            WebDriverWait(self.driver, 5).until(to_swipe).click()
             from src.wework_app.contact.delete_person_page import DeletePersonPage
             return DeletePersonPage(self.driver, depart_name)
 

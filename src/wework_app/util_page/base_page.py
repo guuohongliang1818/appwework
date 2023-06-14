@@ -24,7 +24,7 @@ class BasePage:
             caps["appium:newCommandTimeout"] = 3600
             caps["appium:connectHardwareKeyboard"] = True
             self.driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", caps)
-            self.driver.implicitly_wait(4)
+            self.driver.implicitly_wait(5)
 
     def close(self):
         self.driver.quit()

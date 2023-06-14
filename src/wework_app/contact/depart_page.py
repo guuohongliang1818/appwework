@@ -54,7 +54,7 @@ class DepartPage(BasePage):
     def input_depart_info_and_launch(self):
         print("name：", self.name)
         # 因为已离职的xpath与_to_input_depart_name有冲突，
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(
+        WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located(
             (AppiumBy.ACCESSIBILITY_ID, "发起后，员工将进入待离职状态，请尽快和员工沟通工作交接事宜")))
         # 输入离职姓名
         self.click(**self._to_input_depart_name)
@@ -77,17 +77,17 @@ class DepartPage(BasePage):
 
     def search_and_confirm_depart(self):
         # 只有返回三个元素才能进行点击
-        WebDriverWait(self.driver, 3).until(
+        WebDriverWait(self.driver, 5).until(
             lambda x: len(x.find_elements(**self._search_launch_name)) == 3)
         self.find_elements(**self._search_launch_name)[0].click()
         self.send_keys(**self._search_person_name, text=self.name)
         sleep(1)
         # print("page_source==2", self.driver.page_source)
-        WebDriverWait(self.driver, 3).until(expected_conditions.element_to_be_clickable(
+        WebDriverWait(self.driver, 5).until(expected_conditions.element_to_be_clickable(
             (AppiumBy.XPATH, "//*[contains(@content-desc,'" + self.name[0:1:] + "')]"))).click()
         # self.click(by=AppiumBy.XPATH, value="//*[contains(@content-desc,'" + self.name + "')]")
         self.click(by=AppiumBy.ACCESSIBILITY_ID, value="确认离职")
-        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(
+        WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located(
             (AppiumBy.ACCESSIBILITY_ID, "确认后，员工将被移出通讯录，消息数据将被删除，你可在确认后交接员工的数据资产")))
         self.click(by=AppiumBy.ACCESSIBILITY_ID, value="确认离职")
         # 返回到管理页面
