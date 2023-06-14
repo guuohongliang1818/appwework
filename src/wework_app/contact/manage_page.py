@@ -19,12 +19,16 @@ class ManagePage(BasePage):
     _cancel_manage = dict(by=AppiumBy.ID, value="com.tencent.wework:id/lf0")
     # 编辑员工操作按钮：com.tencent.wework:id/j_a
     _edit = dict(by=AppiumBy.ID, value="com.tencent.wework:id/jeo")
-    # 部门
+
+    # 管理通讯录公司下部门的定位标记
     _department = dict(by=AppiumBy.ID, value="com.tencent.wework:id/mid1Txt")
+    # 管理通讯录部门下部门的定位标记(部门嵌套部门)
     _department_xpath = dict(by=AppiumBy.XPATH,
-                             value="//*[@class='androidx.recyclerview.widget.RecyclerView'][1]"
-                                   "/android.view.ViewGroup"
-                                   "/android.widget.TextView[@resource-id='com.tencent.wework:id/mid1Txt']")
+                             value="//*[@class='androidx.recyclerview.widget.RecyclerView']"
+                                   "/android.view.ViewGroup[1]"
+                                   "/android.widget.TextView[@resource-id='com.tencent.wework:id/mid1Txt'][1]")
+    _flag = True
+
     # 删除成员按钮
     _delete_person = dict(by=AppiumBy.XPATH, value="//*[@text='删除成员']")
     # 详情页面名字
@@ -153,9 +157,11 @@ class ManagePage(BasePage):
             elif len(lst2) == 1:  # 如果==1，则进行删除部门中的成员操作
                 page_source2 = self.driver.page_source
                 print("page_source222==", page_source2)
-                lst3 = self.driver.find_elements(**self._department_xpath)  # 查部门列表看
+                lst3 = self.driver.find_elements(
+                    **(self._department if self._flag else self._department_xpath))  # 查部门列表看
                 if len(lst3) > 0:  # 如果部门列表大于0，则进入部门中
                     lst3[0].click()
+                    self._flag = False
                     return self.to_recursive_delete_department_person()
                 else:
                     return self.to_more_manage_page()
