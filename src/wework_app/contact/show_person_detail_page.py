@@ -15,7 +15,7 @@ class ShowPersonDetailPage(BasePage):
         super().__init__(driver)
 
     def get_show_person_detail(self):
-        WebDriverWait(self.driver, 5).until(
+        WebDriverWait(self.driver, 3).until(
             expected_conditions.visibility_of_element_located((AppiumBy.XPATH, "//*[@text='个人信息']")))
         name = self.find_element(**self._name).text
         email = self.find_element(**self._email).text

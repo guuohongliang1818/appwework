@@ -102,7 +102,7 @@ class ManagePage(BasePage):
             sleep(0.5)
             return driver.find_element(by=AppiumBy.XPATH, value="//*[@text='" + sub_depart + "']")
 
-        WebDriverWait(self.driver, 10).until(to_swipe).click()
+        WebDriverWait(self.driver, 5).until(to_swipe).click()
         return self
 
     # 该方法为批量递归删除部门员工信息，如果部门没有员工，则删除部门信息
