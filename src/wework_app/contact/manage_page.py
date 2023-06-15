@@ -147,14 +147,12 @@ class ManagePage(BasePage):
         if is_manage_contact:
             # 公司管理通讯录页面和部门管理通讯录页面
             page_source1 = self.driver.page_source
-            print("page_source111==", page_source1)
             lst3 = self.find_elements(**self._edit)
             if len(lst3) > 1:  # 如果大于1，则进行删除成员的操作
                 lst3[1].click()
                 return self.to_recursive_delete_department_person()
             elif len(lst3) == 1:  # 如果==1，则进行删除部门中的成员操作
                 page_source2 = self.driver.page_source
-                print("page_source222==", page_source2)
                 lst4 = self.find_elements(**self._department_xpath)  # 查部门列表看
                 if len(lst4) > 0:  # 如果部门列表大于0，则进入部门中
                     lst4[0].click()
@@ -166,7 +164,7 @@ class ManagePage(BasePage):
                     is_blue_sky_tech = False
                     if len(lst2) > 0:
                         is_blue_sky_tech = "蓝天科技有限公司" == lst2[0].get_attribute("text")
-                        
+
                     if is_blue_sky_tech:
                         return self
                     else:
