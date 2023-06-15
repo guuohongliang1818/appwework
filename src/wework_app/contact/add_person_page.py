@@ -40,7 +40,7 @@ class AddPersonPage(BasePage):
     # 退回到管理页面
     def back_manage_page(self):
         # 必须找到“手动输入添加”添加这个按钮，才能返回，否则报错，也不会有返回
-        self.driver.find_element(**self._to_write)
+        self.find_element(**self._to_write)
         self.back()
         from src.wework_app.contact.manage_page import ManagePage
         return ManagePage(self.driver)
@@ -48,7 +48,7 @@ class AddPersonPage(BasePage):
     # 退回到通讯录页面
     def back_contact_page(self):
         # 必须找到“手动输入添加”添加这个按钮，才能返回，否则报错，也不会有返回
-        self.driver.find_element(**self._to_write)
+        self.find_element(**self._to_write)
         self.back()
         from src.wework_app.contact.contact_page import ContactPage
         return ContactPage(self.driver)
