@@ -60,8 +60,3 @@ class BasePage:
         if 'package="com.android.systemui" class="android.widget.Button"' in self.driver.page_source:
             # 拒绝电话
             self.click(by=AppiumBy.ACCESSIBILITY_ID, value="Decline")
-        elif 'package="com.tencent.wework" class="android.widget.TextView" text="编辑成员"' in self.driver.page_source:
-            size = self.driver.get_window_size()
-            width = size["width"]
-            height = size["height"]
-            self.driver.swipe(width * 0.5, height * 0.9, width * 0.5, height * 0.1)
