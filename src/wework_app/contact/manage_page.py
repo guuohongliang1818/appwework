@@ -144,11 +144,6 @@ class ManagePage(BasePage):
         if len(lst1) > 0:
             is_manage_contact = "管理通讯录" == lst1[0].get_attribute("text")
 
-        lst2 = self.find_elements(**self._blue_sky_tech)
-        is_blue_sky_tech = False
-        if len(lst2) > 0:
-            is_blue_sky_tech = "蓝天科技有限公司" == lst2[0].get_attribute("text")
-
         if is_manage_contact:
             # 公司管理通讯录页面和部门管理通讯录页面
             page_source1 = self.driver.page_source
@@ -167,6 +162,11 @@ class ManagePage(BasePage):
                 else:
                     # 如果是公司管理页面，查询到部门列表为0，则可以取消管理
                     # 如果是部门管理页面，查询到部门列表为0，则需要删除部门
+                    lst2 = self.find_elements(**self._blue_sky_tech)
+                    is_blue_sky_tech = False
+                    if len(lst2) > 0:
+                        is_blue_sky_tech = "蓝天科技有限公司" == lst2[0].get_attribute("text")
+                        
                     if is_blue_sky_tech:
                         return self
                     else:
