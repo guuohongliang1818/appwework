@@ -65,7 +65,7 @@ class TestContact:
             .cancel_manage()
 
     # 办理员工离职测试
-    @pytest.mark.parametrize("count", range(1, 11))
+    @pytest.mark.parametrize("count", range(1, 5))
     def test_depart(self, count):
         self.contact_page \
             .to_manage_page() \
@@ -115,7 +115,7 @@ class TestContact:
         show_person_detail_page.one_step_back_contact_page()
 
     # 递归删除成员和部门成员
-    @pytest.mark.parametrize("count", range(1, 11))
+    @pytest.mark.parametrize("count", range(1, 20))
     def test_to_recursive_delete_department_person_for_delete(self, count):
         self.contact_page \
             .to_manage_page() \
@@ -123,7 +123,7 @@ class TestContact:
             .delete_person() \
             .cancel_manage()
 
-    # 递归为员工办理离职和部门成员
+    # 递归为员工办理离职，如果部门中没有员工和子部门则删除部门
     @pytest.mark.parametrize("count", range(1, 11))
     def test_to_recursive_delete_department_person_for_depart(self, count):
         self.contact_page \
