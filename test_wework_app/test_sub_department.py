@@ -14,7 +14,7 @@ class TestSubDepartment:
         self.contact_page = self.home_page.to_message().to_contact()
 
     def teardown_class(self):
-        pass
+        self.home_page.close()
 
     # 添加部门
     @pytest.mark.parametrize("sub_department", ["部门10", "部门11", "部门12"])
