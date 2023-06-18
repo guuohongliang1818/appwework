@@ -21,20 +21,24 @@ class MainPage(BasePage):
 
     def to_alarm_page(self):
         self.driver.find_element(by=AppiumBy.XPATH,
-                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Alarm']/android.widget.TextView").click()
+                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Alarm']"
+                                       "/android.widget.TextView").click()
         return AlarmPage(self.driver)
 
     def to_clock_page(self):
         self.driver.find_element(by=AppiumBy.XPATH,
-                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Clock']/android.widget.TextView").click()
+                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Clock']"
+                                       "/android.widget.TextView").click()
         return ClockPage(self.driver)
 
     def to_timer_page(self):
         self.driver.find_element(by=AppiumBy.XPATH,
-                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Timer']/android.widget.TextView").click()
+                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Timer']"
+                                       "/android.widget.TextView").click()
         return TimerPage(self.driver)
 
     def to_stopwatch_page(self):
         self.driver.find_element(by=AppiumBy.XPATH,
-                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Stopwatch']/android.widget.TextView").click()
+                                 value="//androidx.appcompat.app.ActionBar.Tab[@content-desc='Stopwatch']"
+                                       "/android.widget.TextView").click()
         return StopwatchPage(self.driver)

@@ -8,8 +8,8 @@ class TestClockPage:
     def setup_class(self):
         self.main_page = MainPage()
 
-    def test_to_clock_page(self):
-        self.main_page.to_clock_page()
-
     def teardown_class(self):
         self.main_page.close()
+
+    def test_to_clock_page(self):
+        self.main_page.to_clock_page()
