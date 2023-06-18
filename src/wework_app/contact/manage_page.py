@@ -139,10 +139,12 @@ class ManagePage(BasePage):
                 return
         """
         sleep(0.5)
-        lst1 = self.find_elements(**self._manage_contact)
+        # 由于加了隐式等待，这里如果找不到该元素_manage_contact，会等待3秒钟所以使用page_source
+        # lst1 = self.find_elements(**self._manage_contact)
         is_manage_contact = False
-        if len(lst1) > 0:
-            is_manage_contact = "管理通讯录" == lst1[0].get_attribute("text")
+        if "管理通讯录" in self.driver.page_source:
+            # is_manage_contact = "管理通讯录" == lst1[0].get_attribute("text")
+            is_manage_contact = True
 
         if is_manage_contact:
             # 公司管理通讯录页面和部门管理通讯录页面
@@ -158,6 +160,7 @@ class ManagePage(BasePage):
                 else:
                     # 如果是公司管理页面，查询到部门列表为0，则可以取消管理
                     # 如果是部门管理页面，查询到部门列表为0，则需要删除部门
+                    # 因为当前部门之间的循环嵌套，导致'蓝天科技有限公司'会在每个管理通讯录的页面出现，所以不能使用page_source
                     lst2 = self.find_elements(**self._blue_sky_tech)
                     is_blue_sky_tech = False
                     if len(lst2) > 0:
