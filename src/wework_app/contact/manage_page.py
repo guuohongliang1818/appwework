@@ -153,6 +153,9 @@ class ManagePage(BasePage):
                 lst3[1].click()
                 return self.to_recursive_delete_department_person()
             elif len(lst3) == 1:  # 如果==1，则进行删除部门中的成员操作
+                """
+                注意：这一步需要优化，在这一步有可能找不到部门元素，所以需要等待3秒钟，所以导致之后删除部门的这一步比较慢
+                """
                 lst4 = self.find_elements(**self._department_xpath)  # 查部门列表看
                 if len(lst4) > 0:  # 如果部门列表大于0，则进入部门中
                     lst4[0].click()
