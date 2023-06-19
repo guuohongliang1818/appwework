@@ -1,6 +1,7 @@
 # 姓名：郭宏亮
 # 时间：2023/5/23 20:49
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.webdriver.support.wait import WebDriverWait
 
 from src.clock.base_page import BasePage
 
@@ -18,6 +19,10 @@ class AlarmPage(BasePage):
     _am_pm = dict(by=AppiumBy.ID, value="android:id/am_pm_spinner")
     # 点击ok按钮
     _ok = dict(by=AppiumBy.ID, value="android:id/button1")
+    # 打开按钮
+    _open_close_alarm = dict(by=AppiumBy.ID, value="com.android.deskclock:id/onoff")
+    # 定义闹钟的个数
+    _count = 0
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -28,6 +33,17 @@ class AlarmPage(BasePage):
         self.send_keys(**self._input_time_hour, text=time_str[0])
         self.send_keys(**self._input_time_hour, text=time_str[1])
         self.click(**self._ok)
+        self._count += 1
+        print("闹钟个数count：", self._count)
+        return self
+
+    def open_alarm(self):
+        # 列表个数==闹铃个数
+        if self._count != 0:
+            WebDriverWait(self.driver, 3).until(lambda x: len(x.find_elements(**self._open_close_alarm)) == self._count)
+            lst = self.find_elements(**self._open_close_alarm)
+            lst[0].click()
+
         return self
 
 

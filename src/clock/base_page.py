@@ -45,6 +45,9 @@ class BasePage:
     def send_keys(self, by, value, text):
         self.driver.find_element(by, value).send_keys(text)
 
+    def find_elements(self, by, value):
+        return self.driver.find_elements(by, value)
+
     def handle_exception(self):
         if "" in self.driver.page_source:
             pass
