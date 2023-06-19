@@ -7,7 +7,7 @@ from src.clock.base_page import BasePage
 
 class ClockPage(BasePage):
     # 跳转添加城市页面的按钮
-    _add_city_button = dict(by=AppiumBy.ID, value="com.android.deskclock:id/fab")
+    _add_city = dict(by=AppiumBy.ACCESSIBILITY_ID, value="Cities")
     # 搜索按钮
     _search_button = dict(by=AppiumBy.ID, value="com.android.deskclock:id/search_button")
     # 输入文本信息
