@@ -43,7 +43,9 @@ class BasePage:
             allure.attach(body=self.driver.get_screenshot_as_png(), attachment_type=allure.attachment_type.PNG)
 
     def send_keys(self, by, value, text):
-        self.driver.find_element(by, value).send_keys(text)
+        temp = self.driver.find_element(by, value)
+        temp.clear()
+        temp.send_keys(text)
 
     def find_elements(self, by, value):
         return self.driver.find_elements(by, value)

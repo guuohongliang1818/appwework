@@ -19,7 +19,7 @@ class ClockPage(BasePage):
         super().__init__(driver)
 
     def add_city(self, city):
-        self.click(**self._add_city_button)
+        self.click(**self._add_city)
         self.click(**self._search_button)
         self.send_keys(**self._input_text, text=city)
         self.click(by=AppiumBy.XPATH, value="//android.widget.CheckBox[@content-desc='" + city + "']")
@@ -27,7 +27,7 @@ class ClockPage(BasePage):
         return self
 
     def cancel_city(self, city):
-        self.click(**self._add_city_button)
+        self.click(**self._add_city)
         self.click(**self._search_button)
         if 'class="android.widget.TextView" text="Selected Cities"' in self.driver.page_source:
             self.click(by=AppiumBy.XPATH, value="//android.widget.CheckBox[@content-desc='" + city + "']")

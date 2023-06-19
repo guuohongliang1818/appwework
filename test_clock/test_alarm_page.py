@@ -9,7 +9,10 @@ class TestAlarmPage:
         self.main_page = MainPage()
 
     def test_to_alarm_page(self):
-        self.main_page.to_alarm_page()
+        self.main_page.to_alarm_page().add_alarm(("08", "23")).open_alarm()
 
     def teardown_class(self):
         self.main_page.close()
+
+    def test_delete_alarm(self):
+        self.main_page.to_alarm_page().delete_alarm()
