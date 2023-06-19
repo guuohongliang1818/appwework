@@ -21,7 +21,7 @@ class BasePage:
             caps["appium:newCommandTimeout"] = 3600
             caps["appium:connectHardwareKeyboard"] = True
             self.driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", caps)
-            self.driver.implicitly_wait(40)
+            self.driver.implicitly_wait(5)
 
     def close(self):
         self.driver.quit()
@@ -39,12 +39,11 @@ class BasePage:
             allure.attach(body=self.driver.get_screenshot_as_png(), attachment_type=allure.attachment_type.PNG)
             return
         except:
-
             self.click(by, value)
             allure.attach(body=self.driver.get_screenshot_as_png(), attachment_type=allure.attachment_type.PNG)
 
-    def send_keys(self):
-        pass
+    def send_keys(self, by, value, text):
+        self.driver.find_element(by, value).send_keys(text)
 
     def handle_exception(self):
         if "" in self.driver.page_source:
