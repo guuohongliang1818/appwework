@@ -19,5 +19,3 @@ class TestAlarmPage:
 
     def test_delete_alarm(self):
         self.main_page.to_alarm_page().delete_alarm()
-
-
