@@ -39,25 +39,19 @@ class AlarmPage(BasePage):
         self.send_keys(**self._input_time_hour, text=time_str[0])
         self.send_keys(**self._input_time_minute, text=time_str[1])
         self.click(**self._ok)
-        self._count += 1
-        print("闹钟个数count：", self._count)
-        return self
-
-    def open_alarm(self):
-        # 列表个数==闹铃个数
-        if self._count != 0:
-            WebDriverWait(self.driver, 3).until(lambda x: len(x.find_elements(**self._open_close_alarm)) == self._count)
-            lst = self.find_elements(**self._open_close_alarm)
-            for ele in lst:
-                if ele.get_attribute("text") == "OFF":
-                    ele.click()
+        # 打开闹铃
+        content_str = time_str[0] + ":" + time_str[1] + " " + "AM"
+        ele = self.find_element(by=AppiumBy.XPATH,
+                                value="//android.view.ViewGroup"
+                                      "[contains(@content-desc,'" + content_str + "')]/android.widget.Switch")
+        if ele.get_attribute("text") == "OFF":
+            ele.click()
         return self
 
     def delete_alarm(self):
-        sleep(0.5)
         lst = self.find_elements(**self._drop)
         for ele in lst:
-            text = ele.get_attribute("content-desc")
+            sleep(0.5)
             if ele.get_attribute("content-desc") == "Expand alarm":
                 ele.click()
             self.click(**self._delete)
