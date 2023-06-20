@@ -49,17 +49,16 @@ class AlarmPage(BasePage):
             WebDriverWait(self.driver, 3).until(lambda x: len(x.find_elements(**self._open_close_alarm)) == self._count)
             lst = self.find_elements(**self._open_close_alarm)
             for ele in lst:
-                if ele.__getattribute__("text") == "OFF":
+                if ele.get_attribute("text") == "OFF":
                     ele.click()
         return self
 
     def delete_alarm(self):
         sleep(0.5)
-        page_source = self.driver.page_source
         lst = self.find_elements(**self._drop)
         for ele in lst:
-            text = ele.__getattribute__("content-desc")
-            if ele.__getattribute__("content-desc") == "Expand alarm":
+            text = ele.get_attribute("content-desc")
+            if ele.get_attribute("content-desc") == "Expand alarm":
                 ele.click()
             self.click(**self._delete)
         return self
