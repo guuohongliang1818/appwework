@@ -46,6 +46,7 @@ class AlarmPage(BasePage):
                                       "[contains(@content-desc,'" + content_str + "')]/android.widget.Switch")
         if ele.get_attribute("text") == "OFF":
             ele.click()
+        print("添加闹铃成功")
         return self
 
     def delete_alarm(self):

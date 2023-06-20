@@ -13,6 +13,10 @@ class TestClockPage:
     def teardown_class(self):
         self.main_page.close()
 
-    @pytest.mark.parametrize("city", ["Beijing"])
+    @pytest.mark.parametrize("city", ["Beijing", "Hong Kong"])
     def test_to_clock_page(self, city):
-        self.main_page.to_clock_page().add_city(city).cancel_city(city)
+        self.main_page.to_clock_page().add_city(city)
+
+    @pytest.mark.parametrize("city", ["Beijing", "Hong Kong"])
+    def test_cancel_city(self, city):
+        self.main_page.to_clock_page().cancel_city(city)

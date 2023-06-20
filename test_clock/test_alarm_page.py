@@ -10,6 +10,9 @@ class TestAlarmPage:
     def setup_class(self):
         self.main_page = MainPage()
 
+    def teardown_class(self):
+        self.main_page.close()
+
     @pytest.mark.parametrize("time_str", [("8", "15"), ("9", "15"), ("10", "15"), ("11", "15")])
     def test_to_alarm_page(self, time_str):
         self.main_page.to_alarm_page().add_alarm(time_str)
@@ -17,5 +20,4 @@ class TestAlarmPage:
     def test_delete_alarm(self):
         self.main_page.to_alarm_page().delete_alarm()
 
-    def teardown_class(self):
-        self.main_page.close()
+
