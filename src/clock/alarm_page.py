@@ -40,7 +40,7 @@ class AlarmPage(BasePage):
         self.send_keys(**self._input_time_minute, text=time_str[1])
         self.click(**self._ok)
         # 打开闹铃
-        content_str = time_str[0] + ":" + time_str[1] + " " + "AM"
+        content_str = time_str[0] + ":" + time_str[1] + " " + "PM"
         ele = self.find_element(by=AppiumBy.XPATH,
                                 value="//android.view.ViewGroup"
                                       "[contains(@content-desc,'" + content_str + "')]/android.widget.Switch")
