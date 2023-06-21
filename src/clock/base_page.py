@@ -46,7 +46,6 @@ class BasePage:
             self.driver = webdriver.Remote("http://127.0.0.1:4723/wd/hub", caps)
             self.driver.implicitly_wait(5)
 
-    @retry
     def close(self):
         self.driver.quit()
 
@@ -61,7 +60,6 @@ class BasePage:
         :return:
         """
         self.driver.find_element(by, value).click()
-        allure.attach(body=self.driver.get_screenshot_as_png(), attachment_type=allure.attachment_type.PNG)
 
     @retry
     def send_keys(self, by, value, text):
