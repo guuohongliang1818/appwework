@@ -52,9 +52,10 @@ class AlarmPage(BasePage):
     def delete_alarm(self):
         lst = self.find_elements(**self._drop)
         for ele in lst:
-            sleep(0.5)
+            sleep(0.3)
             if ele.get_attribute("content-desc") == "Expand alarm":
                 ele.click()
+            sleep(0.3)
             self.click(**self._delete)
         return self
 
