@@ -23,7 +23,7 @@ def retry(func):
                           body=po.driver.get_screenshot_as_png(),
                           attachment_type=allure.attachment_type.PNG)
             po.handle_exception()
-            inner(*args, **kwargs)
+            return inner(*args, **kwargs)
 
     return inner
 
