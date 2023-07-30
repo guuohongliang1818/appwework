@@ -40,7 +40,7 @@ class AlarmPage(BasePage):
         self.send_keys(**self._input_time_minute, text=time_str[1])
         self.click(**self._ok)
         # 打开闹铃
-        content_str = time_str[0] + ":" + time_str[1] + " " + "PM"
+        content_str = time_str[0] + ":" + time_str[1] + " " + "AM"
         ele = self.find_element(by=AppiumBy.XPATH,
                                 value="//android.view.ViewGroup"
                                       "[contains(@content-desc,'" + content_str + "')]/android.widget.Switch")
@@ -52,9 +52,10 @@ class AlarmPage(BasePage):
     def delete_alarm(self):
         lst = self.find_elements(**self._drop)
         for ele in lst:
-            sleep(0.5)
+            sleep(0.3)
             if ele.get_attribute("content-desc") == "Expand alarm":
                 ele.click()
+            sleep(0.3)
             self.click(**self._delete)
         return self
 
